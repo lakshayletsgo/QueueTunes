@@ -9,6 +9,7 @@ export const GET = async (req: NextRequest) => {
             email: session?.user?.email ?? ""
         }
     });
+    console.log(req)
     if (!user) {
         return NextResponse.json({
             message: "Unauthenticated"
