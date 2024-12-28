@@ -1,7 +1,7 @@
 import { prismaClient } from "@/app/lib/db";
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
-export const GET = async (req: NextRequest) => {
+import { NextResponse } from "next/server";
+export const GET = async () => {
     const session = await getServerSession();
     // TODO: You can get rid of the db call here 
     const user = await prismaClient.user.findFirst({
@@ -9,7 +9,6 @@ export const GET = async (req: NextRequest) => {
             email: session?.user?.email ?? ""
         }
     });
-    console.log(req)
     if (!user) {
         return NextResponse.json({
             message: "Unauthenticated"
