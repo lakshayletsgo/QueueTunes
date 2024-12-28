@@ -1,7 +1,7 @@
 'use client'
 import StreamView from '../components/StreamView'
 
-const creatorId="7b4c3d74-d8a8-4662-b7b1-b8effef741c6"
+const creatorId="d886197a-4d0d-419a-8dde-357b0114f58b"
 export default function Home() {
   return <StreamView creatorId={creatorId} playVideo={true}/>
 }

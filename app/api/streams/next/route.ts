@@ -1,6 +1,6 @@
 import { prismaClient } from "@/app/lib/db";
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import {  NextResponse } from "next/server";
 
 export async function GET(){
     const sesssion = await getServerSession();
@@ -9,10 +9,7 @@ export async function GET(){
             email:sesssion?.user?.email??""
         }
     })
-    console.log("Control is in api/streams/next")
     if(!user){
-        console.log(user)
-        console.log("Error Here")
         return NextResponse.json({
             message:"Unauthenticated"
         },{

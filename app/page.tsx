@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Music, Play, Users, Zap } from 'lucide-react'
+import {  Play, Users, Zap } from 'lucide-react'
 import { Appbar } from './components/Appbar'
 import { Redirect } from './components/Redirect'
 
@@ -65,19 +65,19 @@ export default function LandingPage() {
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               <div className="space-y-2 p-6 rounded-lg bg-gray-800 shadow-lg border border-purple-500">
                 <p className="text-sm text-gray-300">
-                  "This platform has revolutionized how I connect with my fans. They love choosing the music!"
+                  This platform has revolutionized how I connect with my fans. They love choosing the music!
                 </p>
                 <p className="font-bold text-purple-400">- Alex, Electronic Music Producer</p>
               </div>
               <div className="space-y-2 p-6 rounded-lg bg-gray-800 shadow-lg border border-blue-500">
                 <p className="text-sm text-gray-300">
-                  "I've discovered so many great artists and songs through this app. It's addictive!"
+                  I have discovered so many great artists and songs through this app. It is addictive!
                 </p>
                 <p className="font-bold text-blue-400">- Sarah, Music Enthusiast</p>
               </div>
               <div className="space-y-2 p-6 rounded-lg bg-gray-800 shadow-lg border border-green-500">
                 <p className="text-sm text-gray-300">
-                  "The interaction with fans during streams is unparalleled. It's like a virtual concert every time."
+                  The interaction with fans during streams is unparalleled. It is like a virtual concert every time.
                 </p>
                 <p className="font-bold text-green-400">- Mike, Indie Musician</p>
               </div>

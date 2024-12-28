@@ -1,8 +1,8 @@
 import { prismaClient } from "@/app/lib/db";
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import {  NextResponse } from "next/server";
 
-export async function GET(req:NextRequest){
+export async function GET(){
     const sesssion = await getServerSession();
     const user = await prismaClient.user.findFirst({
         where:{
@@ -10,8 +10,6 @@ export async function GET(req:NextRequest){
         }
     })
     if(!user){
-        console.log(user)
-        console.log("Error Here")
         return NextResponse.json({
             message:"Unauthenticated"
         },{

@@ -3,17 +3,14 @@
 import { useState, useEffect, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { ChevronUp, ChevronDown, Share2, ThumbsDown, ThumbsUp, Play } from 'lucide-react'
+import { ChevronUp, ChevronDown, Share2, Play } from 'lucide-react'
 import Image from 'next/image'
-import { toast, Toaster, useToaster } from 'react-hot-toast'
-import axios from 'axios'
+import { toast, Toaster } from 'react-hot-toast'
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
 import { YOUTUBE_REGEX } from '../lib/utils'
-import { url } from 'inspector'
-import { randomUUID } from 'crypto'
 import { Appbar } from './Appbar'
-// @ts-ignore
+// @ts-expect-error This is to bypass youtube-player
 import YoutubePlayer from 'youtube-player'
 
 type Video = {
@@ -41,7 +38,6 @@ export default function StreamView({
 }) {
   const [videoUrl, setVideoUrl] = useState('')
   const [currentVideo,setCurrentVideo] = useState<Video | null>(null)
-  const [previewId, setPreviewId] = useState('')
   const [queue, setQueue] = useState<Video[]>([])
   const[loading,setLoading] = useState(false)
   const [nextLoading,setNextLoading] = useState(false)
@@ -56,7 +52,7 @@ export default function StreamView({
 
     const json = await res.json()
 
-    setQueue(json.streams.sort((a:any,b:any)=>a.upvotes<b.upvotes?1:-1))
+    setQueue(json.streams.sort((a:Video,b:Video)=>a.upvotes<b.upvotes?1:-1))
 
 
     setCurrentVideo( video=>{
@@ -70,7 +66,7 @@ export default function StreamView({
   }
   useEffect(()=>{
     refreshStreams();
-    const interval = setInterval(()=>{
+   setInterval(()=>{
         refreshStreams();
 
     },REFRESH_INTERVAL_MS)
@@ -81,10 +77,12 @@ export default function StreamView({
     if(!videoPlayerRef.current){
       return
     }
-    let player = YoutubePlayer(videoPlayerRef.current)
+    const player = YoutubePlayer(videoPlayerRef.current)
     player.loadVideoById(currentVideo?.extractedId)
     player.playVideo()
-    function eventHandler(event:any){
+    function eventHandler(event:object){
+      console.log(event)
+      // @ts-expect-error It is different type
       if(event.data===0){
         playNext()
       }
@@ -97,7 +95,6 @@ export default function StreamView({
   },[currentVideo,videoPlayerRef])
 
   const handleSubmit = async (e: React.FormEvent) => {
-    console.log("Video URL: "+videoUrl)
     setLoading(true)
     e.preventDefault()
     const res = await fetch("/api/streams/",{
@@ -107,11 +104,8 @@ export default function StreamView({
         url:videoUrl,
       })
     })
-    const temp = await res.json;
-    console.log(temp.length)
     setQueue([...queue, await res.json()])
     setVideoUrl('')
-    setPreviewId('')
     setLoading(false)
   }
 
@@ -122,11 +116,11 @@ export default function StreamView({
         const data = await fetch('/api/streams/next',{
           method:"GET",
         })
-        console.log("Next Video Data : "+data)
         const json = await data.json()
         setCurrentVideo(json.stream)
         setQueue(q=>q.filter(x=>x.id!==json.stream?.id))
       }catch(e){
+        console.log(e)
       }
       setNextLoading(false)
     }
@@ -156,16 +150,13 @@ export default function StreamView({
         duration:3000,
       })
     },(err)=>{
-      console.log("Could not copy text : ",err)
+      console.log(err)
       toast.error('Failed to copy link. Try Again..',{
         position:"top-right",
         duration:3000
       })
     })
   }
-
-  // In a real application, you'd fetch the current video ID from your backend
-  const currentVideoId = 'dQw4w9WgXcQ'
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-gray-100">
@@ -249,16 +240,9 @@ export default function StreamView({
 
                     {
                       playVideo?<>
-                      {/* @ts-ignore */}
+                      {/* @ts-expect-error This is to bypass ref */}
                       <div ref={videoPlayerRef} className='w-full h-5/6'/>
-                      {/* <iframe
-                      src={`https://www.youtube.com/embed/${currentVideo.extractedId}?autoplay=1`}
-                      
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="w-full h-full rounded-lg"
-                    ></iframe>
-                     */}</>
+                      </>
                     :<>
                       <img src={currentVideo.bigImg} className='w-full h-full object-cover rounded' alt='Img' />
                       <p className='mt-2 text-center font-semibold text-white'>{currentVideo.title}</p>

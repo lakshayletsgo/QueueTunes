@@ -1,15 +1,12 @@
 import { prismaClient } from "@/app/lib/db";
-import { url } from "inspector";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-//@ts-ignore
+//@ts-expect-error This is to bypass youtube-search-api
 import youtubesearchapi from "youtube-search-api"
 import { YOUTUBE_REGEX } from "@/app/lib/utils";
 import { getServerSession } from "next-auth";
-import { json } from "stream/consumers";
 
 
-// This can cause error
 
 const CreateStreamSchema = z.object({
     creatorId:z.string(),
@@ -19,7 +16,6 @@ const MAX_QUEUE_LEN = 20
 export async function POST(req:NextRequest){
     try{
         const data = CreateStreamSchema.parse(await req.json());
-        console.log(data.creatorId)
         const isYt = data.url.match(YOUTUBE_REGEX);
         if(!isYt){
             return NextResponse.json({
@@ -30,7 +26,6 @@ export async function POST(req:NextRequest){
         }
         const extractedId = data.url.split("?v=")[1];
         const res = await youtubesearchapi.GetVideoDetails(extractedId)
-        console.log(res.title)
         const thumbnails = res.thumbnail.thumbnails
         thumbnails.sort((a:{width:number},b:{width:number})=>a.width<b.width?-1:1);
         const existingActiveStream = await prismaClient.stream.count({
@@ -46,7 +41,6 @@ export async function POST(req:NextRequest){
             })
 
         }
-        console.log("Error in creating the user")
         const stream=await prismaClient.stream.create({
             
             data:{
@@ -60,8 +54,6 @@ export async function POST(req:NextRequest){
 
             }
         });
-        // const str = json(...stream)
-        console.log(stream)
         return NextResponse.json({
             ...stream,
             hasUpvoted:false,
@@ -69,7 +61,6 @@ export async function POST(req:NextRequest){
         })
         
     }catch(e){
-        console.log("Error in the api/streams/")
         console.log(e)
         return NextResponse.json({
             message:"Error while adding a stream"
@@ -89,10 +80,7 @@ export async function GET(req:NextRequest) {
             email:sesssion?.user?.email??""
         }
     })
-    console.log("User is "+user)
     if(!user){
-        console.log(user)
-        console.log("Error Here")
         return NextResponse.json({
             message:"Unauthenticated"
         },{

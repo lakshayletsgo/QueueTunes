@@ -32,3 +32,7 @@ Also install packages like prisma then only run the prisma command
 
 7. Then refresh it and it will run 
 
+
+
+
+

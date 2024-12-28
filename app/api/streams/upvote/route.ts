@@ -1,6 +1,5 @@
 import { prismaClient } from "@/app/lib/db";
 import { getServerSession } from "next-auth";
-import { useSearchParams } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -36,6 +35,7 @@ export async function POST(req:NextRequest){
         })
 
     }catch(e){
+        console.log(e)
         return NextResponse.json({
             message:"Error while upvoting"
         },{

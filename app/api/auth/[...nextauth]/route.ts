@@ -22,7 +22,6 @@ const handler=NextAuth({
               }
             })
           }catch(e){
-            console.log("error in authentication")
             console.log(e)
             
           }
