@@ -1,30 +1,13 @@
 'use client'
 import { useEffect, useState } from 'react';
 import StreamView from '../components/StreamView'
+export default async function Component() {
+  try {
+      const data = await fetch("/api/user").then(res => res.json());
 
-export default function Home() {
-  const [creatorId, setCreatorId] = useState<string>("");
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        async function fetchUserData() {
-            try {
-                const response = await fetch("/api/user");
-                const data = await response.json();
-                setCreatorId(data.user?.id || null);
-            } catch (e) {
-                console.error("Error fetching user data:", e);
-            } finally {
-                setLoading(false);
-            }
-        }
-
-        fetchUserData();
-    }, []);
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
-    return <StreamView creatorId={creatorId} playVideo={true} />;
+      return <StreamView creatorId={data.user.id} playVideo={true} />
+  } catch(e) {
+      return null
+  }
 }
+export const dynamic = 'auto'
