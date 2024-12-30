@@ -57,20 +57,20 @@ export default function StreamView({
 
     console.log("Before res.json in streamView")
     console.log(res)
-    const json = await res.json()
+    const jsoned = await res.json()
     console.log("It is able to json it error is somewhere else")
-    if (json.streams && Array.isArray(json.streams)) {
-        setQueue(json.streams.length > 0 
-            ? json.streams.sort((a: Video, b: Video) => b.upvotes - a.upvotes)
+    if (jsoned.streams && Array.isArray(jsoned.streams)) {
+        setQueue(jsoned.streams.length > 0 
+            ? jsoned.streams.sort((a: Video, b: Video) => b.upvotes - a.upvotes)
             : [])
     } else {
         setQueue([])
     }
     setCurrentVideo( video=>{
-      if(video?.id===json.activeStream?.stream?.id){
+      if(video?.id===jsoned.activeStream?.stream?.id){
         return video
       }
-      return json.activeStream?.stream||null
+      return jsoned.activeStream?.stream||null
     }
       
       )
