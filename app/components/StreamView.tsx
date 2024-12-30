@@ -49,9 +49,6 @@ export default function StreamView({
       console.log("Creator Id in stream view is:  "+creatorId)
       const res = await fetch(`/api/streams/?creatorId=${creatorId}`,{
       method:"GET",
-      headers: {
-        'Content-Type': 'application/json',
-    },
       credentials:"include"
     })
 
