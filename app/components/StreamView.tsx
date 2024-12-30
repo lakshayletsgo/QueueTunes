@@ -45,25 +45,41 @@ export default function StreamView({
 
 
   async function refreshStreams (){
-    const res = await fetch(`/api/streams/?creatorId=${creatorId}`,{
+    try{
+      console.log("Creator Id in stream view is:  "+creatorId)
+      const res = await fetch(`/api/streams/?creatorId=${creatorId}`,{
+      method:"GET",
+      headers: {
+        'Content-Type': 'application/json',
+    },
       credentials:"include"
     })
 
 
+
     const json = await res.json()
-
-    setQueue(json.streams.sort((a:Video,b:Video)=>a.upvotes<b.upvotes?1:-1))
-
-
+    if (json.streams && Array.isArray(json.streams)) {
+        setQueue(json.streams.length > 0 
+            ? json.streams.sort((a: Video, b: Video) => b.upvotes - a.upvotes)
+            : [])
+    } else {
+        setQueue([])
+    }
     setCurrentVideo( video=>{
       if(video?.id===json.activeStream?.stream?.id){
         return video
       }
-      return json.activeStream.stream
+      return json.activeStream?.stream||null
     }
       
       )
-  }
+  }catch(e){
+    console.log("Error in refreshing streams")
+    console.log(e)
+  }}
+
+
+
   useEffect(()=>{
     refreshStreams();
    setInterval(()=>{
@@ -95,7 +111,7 @@ export default function StreamView({
   },[currentVideo,videoPlayerRef])
 
   const handleSubmit = async (e: React.FormEvent) => {
-    setLoading(true)
+    try{setLoading(true)
     e.preventDefault()
     const res = await fetch("/api/streams/",{
       method:"POST",
@@ -106,7 +122,10 @@ export default function StreamView({
     })
     setQueue([...queue, await res.json()])
     setVideoUrl('')
-    setLoading(false)
+    setLoading(false)}catch(e){
+      console.log("Error in submitting the link")
+      console.log(e)
+    }
   }
 
   const playNext= async ()=>{

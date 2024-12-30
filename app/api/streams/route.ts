@@ -74,7 +74,9 @@ export async function POST(req:NextRequest){
 
 export async function GET(req:NextRequest) {
     const creatorId = req.nextUrl.searchParams.get("creatorId")
+    console.log("Creator Id Is: "+creatorId)
     const sesssion = await getServerSession();
+    console.log(sesssion)
     const user = await prismaClient.user.findFirst({
         where:{
             email:sesssion?.user?.email??""
