@@ -1,4 +1,3 @@
-"use client"
 import { useEffect, useState } from 'react'
 import StreamView from '../components/StreamView'
 
@@ -10,7 +9,8 @@ export default function Component() {
         try {
             console.log("Before fetch the data from the user ")
             const response = await fetch("/api/user",{
-                method:"GET"
+                method:"GET",
+                credentials:"include"
                 });
                 console.log(response)
                 // console.log(response.body)
