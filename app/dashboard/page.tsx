@@ -10,6 +10,7 @@ export default function Component() {
             console.log("Before fetch the data from the user ")
             const response = await fetch("/api/user",{
                 method:"GET",
+                // Error Can be here
                 credentials:"include"
                 });
                 console.log(response)
