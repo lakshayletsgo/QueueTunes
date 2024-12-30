@@ -13,7 +13,7 @@ export default function Component() {
                 method:"GET"
                 });
                 console.log(response)
-                console.log(response.body)
+                // console.log(response.body)
                 const data = await response.json();
                 console.log("Jsoned data:  "+data)
                 setCreatorId(data.user?.id);
