@@ -21,6 +21,7 @@ const handler=NextAuth({
                 provider:'Google'
               }
             })
+            console.log("It can post the data error is in fetching")
           }catch(e){
             console.log(e)
             
