@@ -12,6 +12,14 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+enum StreamType{
+  Spotify
+  Youtube
+}
+
+enum Provider{
+  Google
+}
 
 model User{
   id      String      @id @default(uuid())
@@ -56,11 +64,3 @@ model Upvote{
 
 }
 
-enum StreamType{
-  Spotify
-  Youtube
-}
-
-enum Provider{
-  Google
-}
