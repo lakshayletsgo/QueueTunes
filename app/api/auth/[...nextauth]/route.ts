@@ -14,6 +14,7 @@ const handler=NextAuth({
           if(!params.user.email){
             return false;
           }
+          console.log("Error in inserting data")
           try{
             await prismaClient.user.create({
               data:{
