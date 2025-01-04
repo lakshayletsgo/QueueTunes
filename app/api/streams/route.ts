@@ -16,6 +16,7 @@ const MAX_QUEUE_LEN = 20
 export async function POST(req:NextRequest){
     try{
         const data = CreateStreamSchema.parse(await req.json());
+        console.log(data)
         const isYt = data.url.match(YOUTUBE_REGEX);
         if(!isYt){
             return NextResponse.json({
