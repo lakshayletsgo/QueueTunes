@@ -58,7 +58,7 @@ export async function POST(req:NextRequest){
             data:{
                 userId:data.creatorId,
                 url:data.url,
-                extractedId,
+                extractedId:extractedId,
                 type:"Youtube",
                 title:res.title??"Can't find video",
                 smallImg: (thumbnails.length>1?thumbnails[thumbnails.length-2].url:thumbnails[thumbnails.length-1].url)??"https://bloody-disgusting.com/wp-content/uploads/2017/08/pennywise-scary.jpg",
