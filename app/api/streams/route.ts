@@ -13,6 +13,7 @@ const CreateStreamSchema = z.object({
     url:z.string(),
 })
 const MAX_QUEUE_LEN = 20
+// let thumbnails = ["https://bloody-disgusting.com/wp-content/uploads/2017/08/pennywise-scary.jpg","https://bloody-disgusting.com/wp-content/uploads/2017/08/pennywise-scary.jpg"]
 export async function POST(req:NextRequest){
     try{
         const data = CreateStreamSchema.parse(await req.json());
@@ -31,10 +32,14 @@ export async function POST(req:NextRequest){
         console.log("This is the response from the youtubesearchapi ")
         console.log(res)
         console.log("This is the res.thumbnails : "+res.thumbnail)
-        const thumbnails = res.thumbnail.thumbnails
+        let thumbnails=[];
+        if(res.thumbnail!=undefined){
+             thumbnails = res.thumbnail.thumbnails
+
+             thumbnails.sort((a:{width:number},b:{width:number})=>a.width<b.width?-1:1);
+        }
         // console.log("This is the res. : "+res.thumbnail)
 
-        thumbnails.sort((a:{width:number},b:{width:number})=>a.width<b.width?-1:1);
         const existingActiveStream = await prismaClient.stream.count({
             where:{
                 userId:data.creatorId
