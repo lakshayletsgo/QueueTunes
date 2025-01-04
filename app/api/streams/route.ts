@@ -25,7 +25,9 @@ export async function POST(req:NextRequest){
             })
         }
         const extractedId = data.url.split("?v=")[1];
+        console.log("This is the extracted id: "+extractedId)
         const res = await youtubesearchapi.GetVideoDetails(extractedId)
+        console.log("This is the response from the youtubesearchapi "+res)
         const thumbnails = res.thumbnail.thumbnails
         thumbnails.sort((a:{width:number},b:{width:number})=>a.width<b.width?-1:1);
         const existingActiveStream = await prismaClient.stream.count({
