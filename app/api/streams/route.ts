@@ -16,7 +16,28 @@ const MAX_QUEUE_LEN = 20
 // let thumbnails = ["https://bloody-disgusting.com/wp-content/uploads/2017/08/pennywise-scary.jpg","https://bloody-disgusting.com/wp-content/uploads/2017/08/pennywise-scary.jpg"]
 export async function POST(req:NextRequest){
     try{
+        const session = await getServerSession();
+        const user = await prismaClient.user.findFirst({
+            where: {
+                email: session?.user?.email ?? ""
+            }
+        });
+
+        if (!user) {
+            return NextResponse.json({
+                message: "Unauthenticated"
+            }, {
+                status: 403
+            });
+        }
         const data = CreateStreamSchema.parse(await req.json());
+        if(!data.url.trim){
+            return NextResponse.json({
+                message: "YouTube link cannot be empty"
+            }, {
+                status: 400
+            });
+        }
         console.log(data)
         const isYt = data.url.match(YOUTUBE_REGEX);
         if(!isYt){
