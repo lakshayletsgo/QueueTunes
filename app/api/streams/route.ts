@@ -13,10 +13,6 @@ const CreateStreamSchema = z.object({
     url:z.string(),
 })
 const MAX_QUEUE_LEN = 20
-const populatThumbnail=async(id:string)=>{
-    const res = await youtubesearchapi.GetVideoDetails(id)
-    return res.thumbnail
-}
 // let thumbnails = ["https://bloody-disgusting.com/wp-content/uploads/2017/08/pennywise-scary.jpg","https://bloody-disgusting.com/wp-content/uploads/2017/08/pennywise-scary.jpg"]
 export async function POST(req:NextRequest){
     try{
@@ -57,8 +53,6 @@ export async function POST(req:NextRequest){
         console.log("This is the response from the youtubesearchapi ")
         console.log(res)
         console.log("This is the res.thumbnails : "+res.thumbnail)
-        console.log("This is the populate thumbail function : ")
-        console.log(populatThumbnail(extractedId))
         let thumbnails=[];
         if(res.thumbnail!=undefined){
              thumbnails = res.thumbnail.thumbnails
