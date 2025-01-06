@@ -50,6 +50,8 @@ export async function POST(req:NextRequest){
         const extractedId = data.url.split("?v=")[1];
         console.log("This is the extracted id: "+extractedId)
         const res = await youtubesearchapi.GetVideoDetails(extractedId)
+        const thumb = await youtubesearchapi.GetVideoDetails(extractedId).thumbnail;
+        console.log(thumb)
         console.log("This is the response from the youtubesearchapi ")
         console.log(res)
         console.log("This is the res.thumbnails : "+res.thumbnail)
