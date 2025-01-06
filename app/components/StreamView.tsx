@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { ChevronUp, ChevronDown, Share2, Play } from 'lucide-react'
-import Image from 'next/image'
+// import Image from 'next/image'
 import { toast, Toaster } from 'react-hot-toast'
 import LiteYouTubeEmbed from 'react-lite-youtube-embed';
 import 'react-lite-youtube-embed/dist/LiteYouTubeEmbed.css'
