@@ -196,14 +196,7 @@ export default function StreamView({
                     {queue?.map(video => (
                       <li key={video.id} className="flex items-center justify-between bg-gray-700 p-4 rounded-lg">
                         <div className="flex items-center space-x-4">
-                          <Image
-                            src={video.smallImg}
-                            alt={(video.title).substring(0,15)+"..."}
-                            
-                            width={90}
-                            height={68}
-                            className="rounded"
-                          />
+                          
                           <span className="font-medium">{video.title}</span>
                         </div>
                         <div className="flex items-center space-x-2">
