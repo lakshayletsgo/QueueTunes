@@ -57,7 +57,8 @@ export async function POST(req:NextRequest){
         console.log("This is the response from the youtubesearchapi ")
         console.log(res)
         console.log("This is the res.thumbnails : "+res.thumbnail)
-        console.log("This is the populate thumbail function : "+populatThumbnail(extractedId))
+        console.log("This is the populate thumbail function : ")
+        console.log(populatThumbnail(extractedId))
         let thumbnails=[];
         if(res.thumbnail!=undefined){
              thumbnails = res.thumbnail.thumbnails
