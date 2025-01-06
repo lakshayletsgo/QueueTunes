@@ -1,7 +1,7 @@
 import { prismaClient } from "@/app/lib/db";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-//@ts-ignore
+//@ts-expect-error This is to bypass youtube-search-api
 import youtubesearchapi from "youtube-search-api"
 import { YOUTUBE_REGEX } from "@/app/lib/utils";
 import { getServerSession } from "next-auth";
