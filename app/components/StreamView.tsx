@@ -198,7 +198,7 @@ export default function StreamView({
                         <div className="flex items-center space-x-4">
                           <Image
                             src={video.smallImg}
-                            alt={(video.title).substring(0,10)}
+                            alt={(video.title).substring(0,15)+"..."}
                             
                             width={90}
                             height={68}
